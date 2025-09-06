@@ -1073,8 +1073,17 @@
   function updateSimulationMultiplier(index, field, value) {
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {
+      // Hem simülasyon hem ana listeyi güncelle
       appState.simulationAltinlar[index][field] = numValue;
+      appState.altinlar[index][field] = numValue;
+      
+      // localStorage'a kaydet
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+      localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
+      
+      // Tabloları güncelle
       refreshSimulationTable();
+      tabloyuDoldur();
     }
   }
 
