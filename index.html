@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title id="pageTitle">KAHTA KUYUMCULAR DERNEĞİ - Profesyonel Altın Takip</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-bg: #f8f9fa;
+      --primary-text: #212529;
+      --header-bg: #ffd700;
+      --header-text: #000;
+      --table-bg: #ffffff;
+      --table-border: #dee2e6;
+      --table-header-bg: #e9ecef;
+      --card-bg: #ffffff;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #17a2b8;
+    }
+    
+    .dark-mode {
+      --primary-bg: #1a1a1a;
+      --primary-text: #f8f9fa;
+      --header-bg: #b8860b;
+      --header-text: #fff;
+      --table-bg: #2d2d2d;
+      --table-border: #444;
+      --table-header-bg: #3d3d3d;
+      --card-bg: #2d2d2d;
+    }
+    
+    /* Mavi Tema */
+    .blue-theme {
+      --primary-bg: #e3f2fd;
+      --primary-text: #1565c0;
+      --header-bg: #1976d2;
+      --header-text: #fff;
+      --table-bg: #ffffff;
+      --table-border: #90caf9;
+      --table-header-bg: #bbdefb;
+      --card-bg: #ffffff;
+      --success-color: #4caf50;
+      --danger-color: #f44336;
+      --warning-color: #ff9800;
+      --info-color: #2196f3;
+    }
+    
+    /* Yeşil Tema */
+    .green-theme {
+      --primary-bg: #e8f5e8;
+      --primary-text: #2e7d32;
+      --header-bg: #4caf50;
+      --header-text: #fff;
+      --table-bg: #ffffff;
+      --table-border: #a5d6a7;
+      --table-header-bg: #c8e6c9;
+      --card-bg: #ffffff;
+      --success-color: #66bb6a;
+      --danger-color: #ef5350;
+      --warning-color: #ffa726;
+      --info-color: #42a5f5;
+    }
+    
+    /* Mor Tema */
+    .purple-theme {
+      --primary-bg: #f3e5f5;
+      --primary-text: #7b1fa2;
+      --header-bg: #9c27b0;
+      --header-text: #fff;
+      --table-bg: #ffffff;
+      --table-border: #ce93d8;
+      --table-header-bg: #e1bee7;
+      --card-bg: #ffffff;
+      --success-color: #ab47bc;
+      --danger-color: #e91e63;
+      --warning-color: #ff7043;
+      --info-color: #5c6bc0;
+    }
+    
+    /* Turuncu Tema */
+    .orange-theme {
+      --primary-bg: #fff3e0;
+      --primary-text: #ef6c00;
+      --header-bg: #ff9800;
+      --header-text: #fff;
+      --table-bg: #ffffff;
+      --table-border: #ffcc02;
+      --table-header-bg: #ffe0b2;
+      --card-bg: #ffffff;
+      --success-color: #ffb74d;
+      --danger-color: #ff5722;
+      --warning-color: #ffc107;
+      --info-color: #ff9800;
+    }
+    
+    /* Kırmızı Tema */
+    .red-theme {
+      --primary-bg: #ffebee;
+      --primary-text: #c62828;
+      --header-bg: #f44336;
+      --header-text: #fff;
+      --table-bg: #ffffff;
+      --table-border: #ef9a9a;
+      --table-header-bg: #ffcdd2;
+      --card-bg: #ffffff;
+      --success-color: #e57373;
+      --danger-color: #d32f2f;
+      --warning-color: #ff7043;
+      --info-color: #f44336;
+    }
+    
+    /* Fiyat gösterimleri için özel stiller */
+    #hasFiyati, #hasAlisFiyati, #hasSatisFiyati {
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: 0.5px;
+    }
+    
+    .display-4, .display-6 {
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--primary-text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 500;
+      line-height: 1.6;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      min-height: 100vh;
+    }
+    
+    header {
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    #saatTarih {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      background-color: rgba(0,0,0,0.1);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    
+    .container {
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .price-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .price-card h2, .price-card h3, .price-card h5 {
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      color: var(--primary-text);
+    }
+    
+    .price-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .price-change {
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .price-up {
+      color: var(--success-color);
+    }
+    
+    .price-down {
+      color: var(--danger-color);
+    }
+    
+    .price-stable {
+      color: var(--warning-color);
+    }
+    
+    table {
+      width: 100%;
+      margin-top: 20px;
+      background-color: var(--table-bg);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border: 1px solid var(--table-border);
+      font-weight: 600;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    
+    /* Altın türü yazılarını büyük harfe çevir */
+    #fiyatTablosu td:first-child {
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    
+    th {
+      background-color: var(--table-header-bg);
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+    }
+    
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    
+    .status-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(20px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .status-indicator.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .status-indicator.error {
+      background-color: var(--danger-color);
+    }
+    
+    .status-indicator.warning {
+      background-color: var(--warning-color);
+    }
+    
+    .status-indicator.info {
+      background-color: var(--info-color);
+    }
+    
+    .history-chart {
+      height: 300px;
+      margin-top: 20px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .modal-content {
+      background-color: var(--card-bg);
+      color: var(--primary-text);
+    }
+    
+    .form-control, .form-select {
+      background-color: var(--table-bg);
+      color: var(--primary-text);
+      border-color: var(--table-border);
+      font-weight: 500;
+    }
+    
+    .btn {
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: var(--primary-text);
+    }
+    
+    .highlighted {
+      font-weight: 800 !important;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+      transition: all 0.3s ease;
+    }
+    
+    .settings-panel {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      width: 300px;
+      display: none;
+    }
+    
+    .settings-panel.show {
+      display: block;
+    }
+    
+    .settings-toggle {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 1001;
+    }
+    
+    .highlight-controls {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--table-border);
+    }
+    
+    .color-preview {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      border: 1px solid var(--table-border);
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    
+    .multi-select-container {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--table-border);
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .multi-select-item {
+      padding: 5px;
+      margin: 2px 0;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .multi-select-item:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+    
+    .multi-select-item.selected {
+      background-color: rgba(13, 110, 253, 0.2);
+    }
+    
+    @media (max-width: 992px) {
+      header {
+        font-size: 1.5rem;
+        padding: 0.8rem;
+      }
+      
+      #saatTarih {
+        position: static;
+        transform: none;
+        display: block;
+        margin-top: 5px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .settings-panel {
+        top: 70px;
+        right: 10px;
+        width: 280px;
+      }
+      
+      .settings-toggle {
+        top: 70px;
+        right: 10px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .button-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .button-row button {
+        width: 100%;
+      }
+      
+      th, td {
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+      
+      .settings-panel {
+        width: 90%;
+        left: 5%;
+        right: auto;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .tooltip-inner {
+      background-color: var(--table-header-bg);
+      color: var(--primary-text);
+    }
+    
+    .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,
+    .bs-tooltip-top .tooltip-arrow::before {
+      border-top-color: var(--table-header-bg);
+    }
+    
+    /* Maliyet Paneli Özel Stilleri */
+    #costCalculationPanel {
+      border: 2px solid var(--info-color);
+    }
+    
+    .sync-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    /* Tema Seçenekleri Stilleri */
+    .theme-option {
+      cursor: pointer;
+      padding: 15px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .theme-option:hover {
+      border-color: var(--info-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .theme-preview {
+      width: 100%;
+      height: 60px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 2px solid #ddd;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .theme-preview::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--header-bg);
+    }
+    
+    .theme-preview::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--primary-bg);
+    }
+    
+    .default-theme {
+      --header-bg: #ffd700;
+      --primary-bg: #f8f9fa;
+    }
+    
+    .dark-theme {
+      --header-bg: #b8860b;
+      --primary-bg: #1a1a1a;
+    }
+    
+    .blue-theme {
+      --header-bg: #1976d2;
+      --primary-bg: #e3f2fd;
+    }
+    
+    .green-theme {
+      --header-bg: #4caf50;
+      --primary-bg: #e8f5e8;
+    }
+    
+    .purple-theme {
+      --header-bg: #9c27b0;
+      --primary-bg: #f3e5f5;
+    }
+    
+    .orange-theme {
+      --header-bg: #ff9800;
+      --primary-bg: #fff3e0;
+    }
+    
+    .red-theme {
+      --header-bg: #f44336;
+      --primary-bg: #ffebee;
+    }
+  </style>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192x192.png" type="image/png">
+  <script>
+    // Service Worker'ı tamamen devre dışı bırak
+    console.log("Altın Takip Uygulaması başlatılıyor...");
+    
+    // Service Worker'ı unregister et
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        registrations.forEach(function(registration) {
+          registration.unregister();
+          console.log('Service Worker kaldırıldı');
+        });
+      });
+    }
+    
+    // Cache'i temizle
+    if ('caches' in window) {
+      caches.keys().then(function(cacheNames) {
+        cacheNames.forEach(function(cacheName) {
+          caches.delete(cacheName);
+        });
+      });
+    }
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-gem me-2"></i>
+        <span id="headerTitle">KAHTA KUYUMCULAR DERNEĞİ</span>
+      </div>
+      <div id="saatTarih"></div>
+    </div>
+  </div>
+  <div class="container mt-2">
+    <div class="row text-center text-white">
+      <div class="col-6">
+        <h5 class="mb-0">HAS ALTIN ALIŞ</h5>
+        <p id="hasAlisFiyati" class="display-6 fw-bold mb-0">0.00 ₺</p>
+      </div>
+      <div class="col-6">
+        <h5 class="mb-0">HAS ALTIN SATIŞ</h5>
+        <p id="hasSatisFiyati" class="display-6 fw-bold mb-0">0.00 ₺</p>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-info" onclick="changeAllTexts()">
+    <i class="bi bi-pencil-square"></i> Tüm Metinleri Değiştir
+  </button>
+</header>
+
+  <button class="btn btn-primary settings-toggle" onclick="toggleSettingsPanel()">
+    <i class="bi bi-palette"></i> Görünüm Ayarları
+  </button>
+
+<div class="settings-panel" id="settingsPanel">
+  <h5><i class="bi bi-sliders"></i> Özel Görünüm Ayarları</h5>
+  <div class="highlight-controls">
+    <h6><i class="bi bi-star-fill"></i> Altın Türü Vurgulama</h6>
+    <div class="mb-3">
+      <label class="form-label">Altın Türleri:</label>
+      <div class="multi-select-container" id="goldTypesContainer"></div>
+      <button class="btn btn-sm btn-outline-secondary w-100" onclick="selectAllGoldTypes()">
+        <i class="bi bi-check-all"></i> Tümünü Seç
+      </button>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Yazı Boyutu:</label>
+      <select id="highlightSize" class="form-select">
+        <option value="normal">Normal</option>
+        <option value="large">Büyük (+%20)</option>
+        <option value="xlarge">Çok Büyük (+%40)</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Yazı Rengi:</label>
+      <div class="d-flex align-items-center">
+        <input type="color" id="highlightColor" value="#d9534f" class="form-control form-control-color">
+        <span class="color-preview" id="highlightColorPreview" style="background-color:#d9534f"></span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="highlightBold">
+        <label class="form-check-label" for="highlightBold">
+          Kalın yazı
+        </label>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-success flex-grow-1" onclick="applyHighlight()">
+        <i class="bi bi-check-circle"></i> Uygula
+      </button>
+      <button class="btn btn-sm btn-danger flex-grow-1" onclick="removeHighlight()">
+        <i class="bi bi-x-circle"></i> Tümünü Kaldır
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-lg-8">
+      <div class="price-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="mb-0">Has Altın Fiyatı</h2>
+          <div>
+            <span id="priceChange" class="price-change"></span>
+            <span id="priceChangePercent" class="price-change ms-2"></span>
+          </div>
+        </div>
+        <h1 id="hasFiyati" class="text-center display-4 fw-bold mb-3">2.345,00 ₺</h1>
+        <div class="d-flex justify-content-center gap-3">
+          <button class="btn btn-warning" onclick="manuelFiyatGuncelle()">
+            <i class="bi bi-pencil-square"></i> Manuel Güncelle
+          </button>
+          <button class="btn btn-success" id="autoUpdateBtn" onclick="showAutoUpdateOptions()">
+            <i class="bi bi-arrow-repeat"></i> Otomatik Güncelleme: Kapalı
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="price-card">
+        <h3 class="mb-3">Hızlı İşlemler</h3>
+        <div class="button-row">
+          <button class="btn btn-info" onclick="showCostCalculation()">
+            <i class="bi bi-calculator"></i> Maliyet Hesabı
+          </button>
+          <button class="btn btn-primary" onclick="showAddGoldModal()">
+            <i class="bi bi-plus-circle"></i> Yeni Altın Ekle
+          </button>
+          <button class="btn btn-secondary" onclick="carpanlariDegistir()">
+            <i class="bi bi-sliders"></i> Çarpanları Düzenle
+          </button>
+          <button class="btn btn-info" onclick="siralamaDegistir()">
+            <i class="bi bi-arrow-down-up"></i> Sıralamayı Düzenle
+          </button>
+          <button class="btn btn-dark" onclick="showThemeSelector()">
+            <i class="bi bi-palette"></i> Tema Seç
+          </button>
+          <button class="btn btn-warning" onclick="showKapaliCarsiPrices()">
+            <i class="bi bi-shop"></i> Kapalı Çarşı
+          </button>
+        </div>
+        <div class="mt-4">
+          <div class="mb-3">
+            <label for="alisAyar" class="form-label">Alış Fiyatı Ayarı:</label>
+            <select id="alisAyar" class="form-select" onchange="tabloyuDoldur()">
+              <option value="otomatik">Otomatik İndirim</option>
+              <option value="manuel">Manuel Giriş</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="searchInput" class="form-label">Arama:</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="text" id="searchInput" class="form-control" placeholder="Altın türü ara..." oninput="aramaYap()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Normal Altın Listesi -->
+  <div class="price-card mt-4">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Altın Türü</th>
+            <th>Alış Fiyatı</th>
+            <th>Satış Fiyatı</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody id="fiyatTablosu"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Maliyet Hesabı Paneli -->
+  <div class="price-card mt-4" id="costCalculationPanel" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">Maliyet Hesabı (Simülasyon)</h3>
+      <button class="btn btn-sm btn-danger" onclick="closeCostCalculation()">
+        <i class="bi bi-x-circle"></i> Kapat
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Altın Türü</th>
+            <th>Has Alış Çarpanı</th>
+            <th>Has Satış Çarpanı</th>
+            <th>Simülasyon Alış</th>
+            <th>Simülasyon Satış</th>
+          </tr>
+        </thead>
+        <tbody id="simulationTable"></tbody>
+      </table>
+    </div>
+    <div class="mt-3">
+      <button class="btn btn-success me-2" onclick="syncToMain()">
+        <i class="bi bi-arrow-down-up"></i> Ana Listeye Aktar
+      </button>
+      <button class="btn btn-warning" onclick="syncToSimulation()">
+        <i class="bi bi-files"></i> Ana Listeyi Kopyala
+      </button>
+    </div>
+  </div>
+
+  <!-- Fiyat Geçmişi -->
+  <div class="price-card mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">Fiyat Geçmişi</h3>
+      <button class="btn btn-sm btn-outline-secondary" onclick="showHistoryModal()">
+        <i class="bi bi-clock-history"></i> Tüm Geçmiş
+      </button>
+    </div>
+    <div class="history-chart" id="priceHistoryChart">
+      <canvas id="historyChartCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Modaller -->
+<div class="modal fade" id="autoUpdateOptionsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otomatik Güncelleme Seçenekleri</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Gösterilecek Fiyat:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="autoUpdatePriceType" id="autoUpdateAlis" value="alis" checked>
+            <label class="form-check-label" for="autoUpdateAlis">
+              Has Altın Alış
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="autoUpdatePriceType" id="autoUpdateSatis" value="satis">
+            <label class="form-check-label" for="autoUpdateSatis">
+              Has Altın Satış
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="toggleAutoUpdate()">Uygula</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="kapaliCarsiModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kapalı Çarşı Fiyatları</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="kapaliCarsiModalBody">
+        <!-- Fiyatlar buraya yüklenecek -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addGoldModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Yeni Altın Türü Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addGoldForm">
+          <div class="mb-3">
+            <label for="goldName" class="form-label">Altın Türü Adı</label>
+            <input type="text" class="form-control" id="goldName" required>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="hasAlisCarpan" class="form-label">Has Alış Çarpanı</label>
+              <input type="number" step="0.001" class="form-control" id="hasAlisCarpan" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="hasSatisCarpan" class="form-label">Has Satış Çarpanı</label>
+              <input type="number" step="0.001" class="form-control" id="hasSatisCarpan" required>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="addNewGoldType()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Fiyat Geçmişi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="history-chart" style="height: 400px;">
+          <canvas id="fullHistoryChartCanvas"></canvas>
+        </div>
+        <div class="table-responsive mt-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tarih</th>
+                <th>Fiyat (₺)</th>
+                <th>Değişim</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="themeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-palette"></i> Tema Seçici</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('default')">
+              <div class="theme-preview default-theme"></div>
+              <h6>Varsayılan</h6>
+              <p class="text-muted">Altın renkli klasik tema</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('dark')">
+              <div class="theme-preview dark-theme"></div>
+              <h6>Koyu Mod</h6>
+              <p class="text-muted">Koyu arka plan</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('blue')">
+              <div class="theme-preview blue-theme"></div>
+              <h6>Mavi Tema</h6>
+              <p class="text-muted">Profesyonel mavi</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('green')">
+              <div class="theme-preview green-theme"></div>
+              <h6>Yeşil Tema</h6>
+              <p class="text-muted">Doğal yeşil</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('purple')">
+              <div class="theme-preview purple-theme"></div>
+              <h6>Mor Tema</h6>
+              <p class="text-muted">Şık mor</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('orange')">
+              <div class="theme-preview orange-theme"></div>
+              <h6>Turuncu Tema</h6>
+              <p class="text-muted">Enerjik turuncu</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="theme-option" onclick="changeTheme('red')">
+              <div class="theme-preview red-theme"></div>
+              <h6>Kırmızı Tema</h6>
+              <p class="text-muted">Güçlü kırmızı</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="connectionStatus" class="status-indicator">
+  <i class="bi bi-check-circle"></i>
+  <span>Bağlantı Sağlandı</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // IndexedDB için veritabanı adı
+  const DB_NAME = 'GoldTrackerDB';
+  const DB_VERSION = 1;
+  
+  // Uygulama verileri ve durumu
+  const appState = {
+    altinlar: JSON.parse(localStorage.getItem('altinlar')) || [
+      { tur: "22 Ayar Bilezik", hasAlisCarpan: 0.910, hasSatisCarpan: 0.9245, manuelAlis: null },
+      { tur: "Şarnel Bilezik", hasAlisCarpan: 0.910, hasSatisCarpan: 0.930, manuelAlis: null },
+      { tur: "Tam Altın", hasAlisCarpan: 6.39, hasSatisCarpan: 6.475, manuelAlis: null },
+      { tur: "Yarım Altın", hasAlisCarpan: 3.20, hasSatisCarpan: 3.25, manuelAlis: null },
+      { tur: "Çeyrek Altın", hasAlisCarpan: 1.6, hasSatisCarpan: 1.63, manuelAlis: null },
+      { tur: "Cumhuriyet (7,2)", hasAlisCarpan: 6.39, hasSatisCarpan: 6.48, manuelAlis: null },
+      { tur: "22 Ayar 1 Gram", hasAlisCarpan: 0.913, hasSatisCarpan: 0.940, manuelAlis: null },
+      { tur: "24 Ayar 1 Gram", hasAlisCarpan: 1.012, hasSatisCarpan: 1.012, manuelAlis: null }
+    ],
+    simulationAltinlar: JSON.parse(localStorage.getItem('simulationAltinlar')) || JSON.parse(JSON.stringify(JSON.parse(localStorage.getItem('altinlar')) || [
+      { tur: "22 Ayar Bilezik", hasAlisCarpan: 0.910, hasSatisCarpan: 0.9245, manuelAlis: null },
+      { tur: "Şarnel Bilezik", hasAlisCarpan: 0.910, hasSatisCarpan: 0.930, manuelAlis: null },
+      { tur: "Tam Altın", hasAlisCarpan: 6.39, hasSatisCarpan: 6.475, manuelAlis: null },
+      { tur: "Yarım Altın", hasAlisCarpan: 3.20, hasSatisCarpan: 3.25, manuelAlis: null },
+      { tur: "Çeyrek Altın", hasAlisCarpan: 1.6, hasSatisCarpan: 1.63, manuelAlis: null },
+      { tur: "Cumhuriyet (7,2)", hasAlisCarpan: 6.39, hasSatisCarpan: 6.48, manuelAlis: null },
+      { tur: "22 Ayar 1 Gram", hasAlisCarpan: 0.913, hasSatisCarpan: 0.940, manuelAlis: null },
+      { tur: "24 Ayar 1 Gram", hasAlisCarpan: 1.012, hasSatisCarpan: 1.012, manuelAlis: null }
+    ])),
+    anlikHasFiyat: parseFloat(localStorage.getItem('anlikHasFiyat')) || 2345.00,
+    anlikHasAlisFiyat: parseFloat(localStorage.getItem('anlikHasAlisFiyat')) || 0.00,
+    anlikHasSatisFiyat: parseFloat(localStorage.getItem('anlikHasSatisFiyat')) || 0.00,
+    previousPrice: parseFloat(localStorage.getItem('previousPrice')) || 2345.00,
+    autoUpdate: localStorage.getItem('autoUpdate') === 'true',
+    autoUpdatePriceType: localStorage.getItem('autoUpdatePriceType') || 'alis',
+    updateInterval: null,
+    darkMode: localStorage.getItem('darkMode') === 'true',
+    selectedTheme: localStorage.getItem('selectedTheme') || 'default',
+    priceHistory: JSON.parse(localStorage.getItem('priceHistory')) || [],
+    chart: null,
+    fullChart: null,
+    highlightSettings: JSON.parse(localStorage.getItem('highlightSettings')) || {}
+  };
+
+  // Yuvarlama fonksiyonları
+  function roundUpToFive(value) {
+    return Math.ceil(value / 5) * 5;
+  }
+
+  function roundDownToFive(value) {
+    return Math.floor(value / 5) * 5;
+  }
+
+  // Sayfa yüklendiğinde
+  document.addEventListener('DOMContentLoaded', function() {
+    // Tema tercihini uygula
+    if (appState.selectedTheme !== 'default') {
+      document.body.classList.add(appState.selectedTheme + '-theme');
+    }
+    
+    updateUI();
+    tabloyuDoldur();
+    updateSaatTarih();
+    loadPriceHistory();
+    if (appState.autoUpdate) {
+      startAutoUpdate();
+    }
+    initHighlightSettings();
+    applySavedHighlight();
+    
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+
+  // Maliyet hesabı panelini aç
+  function showCostCalculation() {
+    document.getElementById('costCalculationPanel').style.display = 'block';
+    refreshSimulationTable();
+    showStatus('Maliyet hesabı paneli açıldı', 'success');
+  }
+
+  // Maliyet hesabı panelini kapat
+  function closeCostCalculation() {
+    document.getElementById('costCalculationPanel').style.display = 'none';
+    showStatus('Maliyet hesabı paneli kapatıldı', 'info');
+  }
+
+  // Simülasyon tablosunu yenile
+  function refreshSimulationTable() {
+    const tableBody = document.getElementById('simulationTable');
+    tableBody.innerHTML = '';
+    
+    appState.simulationAltinlar.forEach((altin, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${altin.tur.toUpperCase()}</td>
+        <td><input type="number" step="0.001" class="form-control" 
+             value="${altin.hasAlisCarpan}" 
+             onchange="updateSimulationMultiplier(${index}, 'hasAlisCarpan', this.value)"></td>
+        <td><input type="number" step="0.001" class="form-control" 
+             value="${altin.hasSatisCarpan}" 
+             onchange="updateSimulationMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
+        <td>${formatPara(appState.anlikHasFiyat * altin.hasAlisCarpan)}</td>
+        <td>${formatPara(appState.anlikHasFiyat * altin.hasSatisCarpan)}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+    localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
+  }
+
+  // Simülasyon çarpanlarını güncelle
+  function updateSimulationMultiplier(index, field, value) {
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      appState.simulationAltinlar[index][field] = numValue;
+      refreshSimulationTable();
+    }
+  }
+
+  // Simülasyonu ana listeye aktar
+  function syncToMain() {
+    if (confirm('Simülasyon verilerini ana listeye aktarmak istediğinize emin misiniz?')) {
+      appState.altinlar = JSON.parse(JSON.stringify(appState.simulationAltinlar));
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+      tabloyuDoldur();
+      showStatus('Simülasyon verileri ana listeye aktarıldı', 'success');
+    }
+  }
+
+  // Ana listeyi simülasyona kopyala
+  function syncToSimulation() {
+    appState.simulationAltinlar = JSON.parse(JSON.stringify(appState.altinlar));
+    refreshSimulationTable();
+    showStatus('Ana liste simülasyona kopyalandı', 'info');
+  }
+
+  // Tabloyu doldurma fonksiyonu (yuvarlama eklenmiş)
+  function tabloyuDoldur() {
+    const tablo = document.getElementById('fiyatTablosu');
+    const alisAyar = document.getElementById('alisAyar').value;
+    tablo.innerHTML = "";
+
+    // Otomatik güncelleme tipine göre hangi has fiyatı kullanılacağını belirle
+    let hasFiyat;
+    if (appState.autoUpdatePriceType === 'alis') {
+      hasFiyat = appState.anlikHasAlisFiyat || appState.anlikHasFiyat;
+    } else if (appState.autoUpdatePriceType === 'satis') {
+      hasFiyat = appState.anlikHasSatisFiyat || appState.anlikHasFiyat;
+    } else {
+      hasFiyat = appState.anlikHasFiyat;
+    }
+
+    appState.altinlar.forEach((altin, index) => {
+      // Otomatik güncelleme tipine göre çarpanları belirle
+      let alisCarpan, satisCarpan;
+      if (appState.autoUpdatePriceType === 'alis') {
+        alisCarpan = altin.hasAlisCarpan;
+        satisCarpan = altin.hasAlisCarpan; // Alış fiyatına göre satış da hesaplanır
+      } else if (appState.autoUpdatePriceType === 'satis') {
+        alisCarpan = altin.hasSatisCarpan; // Satış fiyatına göre alış da hesaplanır
+        satisCarpan = altin.hasSatisCarpan;
+      } else {
+        // Manuel mod - ortalama çarpanlar kullan
+        alisCarpan = altin.hasAlisCarpan;
+        satisCarpan = altin.hasSatisCarpan;
+      }
+
+      const satisFiyati = hasFiyat * satisCarpan;
+      let alisFiyati;
+
+      if (alisAyar === 'otomatik') {
+        if (altin.tur === "Cumhuriyet (7,2)") {
+          alisFiyati = hasFiyat * altin.hasAlisCarpan * 7.20;
+        } else {
+          alisFiyati = hasFiyat * alisCarpan;
+        }
+      } else {
+        if (altin.manuelAlis !== null) {
+          alisFiyati = altin.manuelAlis;
+        } else {
+          if (altin.tur === "Cumhuriyet (7,2)") {
+            alisFiyati = hasFiyat * altin.hasAlisCarpan * 7.20;
+          } else {
+            alisFiyati = hasFiyat * alisCarpan;
+          }
+        }
+      }
+
+      // Yuvarlama işlemleri
+      const roundedSatisFiyati = roundUpToFive(satisFiyati);
+      const roundedAlisFiyati = roundDownToFive(alisFiyati);
+
+      const satir = document.createElement('tr');
+      satir.className = 'fade-in';
+      satir.innerHTML = `
+        <td>${altin.tur.toUpperCase()}</td>
+        <td>${formatPara(roundedAlisFiyati)}</td>
+        <td>${formatPara(roundedSatisFiyati)}</td>
+        <td>
+          <div class="d-flex gap-2 justify-content-center">
+            <button class="btn btn-sm btn-outline-primary" onclick="manuelAlisGirisiYap(${index})" data-bs-toggle="tooltip" title="Alış fiyatını düzenle">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="editGoldType(${index})" data-bs-toggle="tooltip" title="Altın türünü düzenle">
+              <i class="bi bi-sliders"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" onclick="altinSil(${index})" data-bs-toggle="tooltip" title="Altın türünü sil">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      tablo.appendChild(satir);
+    });
+    
+    localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+    applySavedHighlight();
+  }
+
+  // Manuel alış fiyatı girişi
+  function manuelAlisGirisiYap(index) {
+    const altin = appState.altinlar[index];
+    const yeniFiyat = prompt(
+      `${altin.tur} için alış fiyatı girin (₺):\n(0 girerek otomatik moda dönebilirsiniz)`,
+      altin.manuelAlis ? altin.manuelAlis.toFixed(2) : ''
+    );
+    
+    if (yeniFiyat !== null) {
+      if (yeniFiyat === '0' || yeniFiyat === '') {
+        altin.manuelAlis = null;
+        showStatus('Otomatik alış fiyatına dönüldü', 'info');
+      } else {
+        const fiyat = parseFloat(yeniFiyat.replace(',', '.'));
+        if (!isNaN(fiyat) && fiyat > 0) {
+          altin.manuelAlis = fiyat;
+          showStatus('Alış fiyatı güncellendi!', 'success');
+        } else {
+          showStatus('Geçersiz fiyat!', 'error');
+          return;
+        }
+      }
+      tabloyuDoldur();
+    }
+  }
+
+  // Altın türünü düzenle
+  function editGoldType(index) {
+    const altin = appState.altinlar[index];
+    const newName = prompt("Altın türü adını güncelleyin:", altin.tur);
+    
+    if (newName === null) return;
+    
+    if (!newName.trim()) {
+      showStatus('Altın türü adı boş olamaz!', 'error');
+      return;
+    }
+    
+    if (newName !== altin.tur && 
+        appState.altinlar.some((a, i) => i !== index && a.tur.toLowerCase() === newName.toLowerCase())) {
+      showStatus('Bu isimde başka bir altın türü zaten var!', 'error');
+      return;
+    }
+    
+    const newHasAlisCarpan = prompt("Yeni Has Alış çarpanı girin:", altin.hasAlisCarpan);
+    const newHasSatisCarpan = prompt("Yeni Has Satış çarpanı girin:", altin.hasSatisCarpan);
+    
+    if (newHasAlisCarpan === null || newHasSatisCarpan === null) return;
+    
+    if (isNaN(newHasAlisCarpan) || isNaN(newHasSatisCarpan) || newHasAlisCarpan <= 0 || newHasSatisCarpan <= 0) {
+      showStatus('Geçersiz çarpan değerleri!', 'error');
+      return;
+    }
+
+    altin.tur = newName.trim();
+    altin.hasAlisCarpan = parseFloat(newHasAlisCarpan);
+    altin.hasSatisCarpan = parseFloat(newHasSatisCarpan);
+    altin.manuelAlis = null;
+    
+    tabloyuDoldur();
+    refreshSimulationTable();
+    showStatus('Altın türü başarıyla güncellendi!', 'success');
+    initHighlightSettings();
+  }
+
+  // Altın silme
+  function altinSil(index) {
+    if (confirm(`${appState.altinlar[index].tur} türünü silmek istediğinize emin misiniz?`)) {
+      appState.altinlar.splice(index, 1);
+      appState.simulationAltinlar.splice(index, 1);
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+      localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
+      tabloyuDoldur();
+      refreshSimulationTable();
+      showStatus('Altın türü silindi!', 'success');
+      initHighlightSettings();
+    }
+  }
+
+  // Fiyat güncelleme
+  function updatePrice(newPrice) {
+    appState.previousPrice = appState.anlikHasFiyat;
+    appState.anlikHasFiyat = newPrice;
+    
+    const historyEntry = {
+      price: newPrice,
+      date: new Date(),
+      change: newPrice - appState.previousPrice
+    };
+    appState.priceHistory.push(historyEntry);
+    
+    if (appState.priceHistory.length > 100) {
+      appState.priceHistory.shift();
+    }
+    
+    localStorage.setItem('priceHistory', JSON.stringify(appState.priceHistory));
+    localStorage.setItem('anlikHasFiyat', appState.anlikHasFiyat);
+    localStorage.setItem('previousPrice', appState.previousPrice);
+    
+    updatePriceDisplay();
+    tabloyuDoldur();
+    refreshSimulationTable();
+    updateChart();
+  }
+
+  // Fiyat görüntüsünü güncelle
+  function updatePriceDisplay() {
+    let displayPrice = 0;
+    if (appState.autoUpdatePriceType === 'alis') {
+      displayPrice = appState.anlikHasAlisFiyat;
+    } else if (appState.autoUpdatePriceType === 'satis') {
+      displayPrice = appState.anlikHasSatisFiyat;
+    } else {
+      displayPrice = appState.anlikHasFiyat; // Fallback to average if no type selected
+    }
+    document.getElementById('hasFiyati').textContent = formatPara(displayPrice);
+    
+    const changeElement = document.getElementById('priceChange');
+    const changePercentElement = document.getElementById('priceChangePercent');
+    const change = appState.anlikHasFiyat - appState.previousPrice;
+    const changePercent = (change / appState.previousPrice) * 100;
+    
+    if (change > 0) {
+      changeElement.textContent = `+${formatPara(change)}`;
+      changeElement.className = 'price-change price-up';
+      changePercentElement.textContent = `(+${changePercent.toFixed(2)}%)`;
+      changePercentElement.className = 'price-change price-up';
+    } else if (change < 0) {
+      changeElement.textContent = formatPara(change);
+      changeElement.className = 'price-change price-down';
+      changePercentElement.textContent = `(${changePercent.toFixed(2)}%)`;
+      changePercentElement.className = 'price-change price-down';
+    } else {
+      changeElement.textContent = 'Değişmedi';
+      changeElement.className = 'price-change price-stable';
+      changePercentElement.textContent = '';
+    }
+  }
+
+  // Manuel fiyat güncelleme
+  function manuelFiyatGuncelle() {
+    const yeniFiyat = prompt("Yeni Has Altın Fiyatını Girin (₺):", appState.anlikHasFiyat.toFixed(2));
+    
+    if (yeniFiyat !== null) {
+      const fiyat = parseFloat(yeniFiyat.replace(',', '.'));
+      
+      if (!isNaN(fiyat) && fiyat > 0) {
+        updatePrice(fiyat);
+        showStatus('Fiyat güncellendi!', 'success');
+      } else {
+        showStatus('Geçersiz fiyat!', 'error');
+      }
+    }
+  }
+
+  // Otomatik güncelleme geçişi
+  function toggleAutoUpdate() {
+    const selectedPriceType = document.querySelector('input[name="autoUpdatePriceType"]:checked').value;
+    appState.autoUpdatePriceType = selectedPriceType;
+    localStorage.setItem('autoUpdatePriceType', appState.autoUpdatePriceType);
+
+    appState.autoUpdate = !appState.autoUpdate;
+    localStorage.setItem('autoUpdate', appState.autoUpdate);
+    updateUI();
+    
+    if (appState.autoUpdate) {
+      // When auto update is turned ON, ensure all gold types are in automatic calculation mode
+      appState.altinlar.forEach(altin => {
+        altin.manuelAlis = null; // Reset manual override
+      });
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar)); // Save changes
+      document.getElementById('alisAyar').value = 'otomatik'; // Set dropdown to otomatik
+      tabloyuDoldur(); // Re-render table with automatic prices
+      refreshSimulationTable(); // Re-render simulation table
+
+      startAutoUpdate();
+      showStatus(`Otomatik güncelleme başladı! Fiyatlar her 60 saniyede bir güncellenecek. Gösterilen: ${selectedPriceType === 'alis' ? 'Alış' : 'Satış'}`, 'info');
+    } else {
+      stopAutoUpdate();
+      showStatus('Otomatik güncelleme durduruldu.', 'warning');
+    }
+    bootstrap.Modal.getInstance(document.getElementById('autoUpdateOptionsModal')).hide();
+  }
+
+  // Otomatik güncelleme seçenekleri modalını göster
+  function showAutoUpdateOptions() {
+    const modal = new bootstrap.Modal(document.getElementById('autoUpdateOptionsModal'));
+    modal.show();
+  }
+
+  // Otomatik güncellemeyi başlat
+  function startAutoUpdate() {
+    stopAutoUpdate();
+    updateGoldPrice();
+    appState.updateInterval = setInterval(updateGoldPrice, 60000);
+  }
+
+  // Otomatik güncellemeyi durdur
+  function stopAutoUpdate() {
+    if (appState.updateInterval) {
+      clearInterval(appState.updateInterval);
+      appState.updateInterval = null;
+    }
+  }
+
+  // Altın fiyatını güncelle
+  function updateGoldPrice() {
+    // CanlıDöviz.com'dan Kapalı Çarşı Has Altın fiyatlarını çek
+    // Netlify için CORS proxy kullan
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    const targetUrl = 'https://canlidoviz.com/altin-fiyatlari/kapali-carsi/has-altin';
+    fetch(proxyUrl + encodeURIComponent(targetUrl))
+      .then(response => {
+        if (!response.ok) throw new Error('API hatası');
+        return response.text();
+      })
+      .then(html => {
+        // HTML içeriğinden fiyat bilgilerini çıkar
+        // CanlıDöviz.com'dan gelen HTML'de fiyatları bul
+        const alisMatch = html.match(/BAYİ ALIŞ[^>]*>([0-9,\.]+)/i) || 
+                         html.match(/4778\.00/) ||
+                         html.match(/alış[^>]*>([0-9,\.]+)/i) ||
+                         html.match(/([0-9,\.]+).*BAYİ ALIŞ/i);
+        const satisMatch = html.match(/BAYİ SATIŞ[^>]*>([0-9,\.]+)/i) || 
+                          html.match(/4800\.80/) ||
+                          html.match(/satış[^>]*>([0-9,\.]+)/i) ||
+                          html.match(/([0-9,\.]+).*BAYİ SATIŞ/i);
+        
+        if (alisMatch && satisMatch) {
+          // Fiyatları çıkar ve temizle
+          let alisPrice = alisMatch[1] || alisMatch[0];
+          let satisPrice = satisMatch[1] || satisMatch[0];
+          
+          // Sadece sayıları al ve virgülü noktaya çevir
+          alisPrice = alisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
+          satisPrice = satisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
+          
+          const newAlisPrice = parseFloat(alisPrice);
+          const newSatisPrice = parseFloat(satisPrice);
+          
+          // Geçerli fiyat kontrolü
+          if (isNaN(newAlisPrice) || isNaN(newSatisPrice) || newAlisPrice <= 0 || newSatisPrice <= 0) {
+            throw new Error('Geçersiz fiyat değerleri');
+          }
+          
+          // Update appState with both buy and sell prices
+          appState.anlikHasAlisFiyat = newAlisPrice;
+          appState.anlikHasSatisFiyat = newSatisPrice;
+          
+          // Store the previous price for change calculation
+          appState.previousPrice = appState.anlikHasFiyat;
+          
+          // Update the main has price based on selected type
+          if (appState.autoUpdatePriceType === 'alis') {
+            appState.anlikHasFiyat = newAlisPrice;
+          } else if (appState.autoUpdatePriceType === 'satis') {
+            appState.anlikHasFiyat = newSatisPrice;
+          } else {
+            // Default to alis price if no type is selected
+            appState.anlikHasFiyat = newAlisPrice;
+          }
+
+          // Update the header display elements
+          document.getElementById('hasAlisFiyati').textContent = formatPara(newAlisPrice);
+          document.getElementById('hasSatisFiyati').textContent = formatPara(newSatisPrice);
+
+          // Save updated prices to localStorage
+          localStorage.setItem('anlikHasFiyat', appState.anlikHasFiyat);
+          localStorage.setItem('anlikHasAlisFiyat', appState.anlikHasAlisFiyat);
+          localStorage.setItem('anlikHasSatisFiyat', appState.anlikHasSatisFiyat);
+          localStorage.setItem('previousPrice', appState.previousPrice);
+
+          // Update price history
+          const historyEntry = {
+            price: appState.anlikHasFiyat,
+            date: new Date(),
+            change: appState.anlikHasFiyat - appState.previousPrice
+          };
+          appState.priceHistory.push(historyEntry);
+          
+          if (appState.priceHistory.length > 100) {
+            appState.priceHistory.shift();
+          }
+          
+          localStorage.setItem('priceHistory', JSON.stringify(appState.priceHistory));
+
+          // Update displays and tables
+          updatePriceDisplay();
+          tabloyuDoldur();
+          refreshSimulationTable();
+          updateChart();
+
+          showStatus(`CanlıDöviz.com'dan güncel fiyatlar: Alış ${formatPara(newAlisPrice)}, Satış ${formatPara(newSatisPrice)}`, 'success');
+        } else {
+          throw new Error('CanlıDöviz.com\'dan fiyat bilgileri bulunamadı');
+        }
+      })
+      .catch(error => {
+        console.error('CanlıDöviz.com API hatası:', error);
+        showStatus('CanlıDöviz.com verisi alınamadı, demo modunda güncellendi', 'warning');
+        // Fallback to demo mode if API fails
+        const changePercent = (Math.random() * 2 - 1) / 100;
+        const newPrice = appState.anlikHasFiyat * (1 + changePercent);
+        updatePrice(parseFloat(newPrice.toFixed(2)));
+      });
+  }
+
+  // UI durumunu güncelle
+  function updateUI() {
+    const btn = document.getElementById('autoUpdateBtn');
+    btn.textContent = `Otomatik Güncelleme: ${appState.autoUpdate ? 'AÇIK' : 'KAPALI'}`;
+    btn.className = appState.autoUpdate ? 'btn btn-success' : 'btn btn-outline-success';
+  }
+
+  // Fiyat geçmişini yükle
+  function loadPriceHistory() {
+    if (appState.priceHistory.length === 0) {
+      const now = new Date();
+      for (let i = 30; i >= 0; i--) {
+        const date = new Date(now);
+        date.setDate(date.getDate() - i);
+        
+        const changePercent = (Math.random() * 4 - 2) / 100;
+        const price = i === 30 ? appState.anlikHasFiyat : 
+          appState.priceHistory[appState.priceHistory.length - 1].price * (1 + changePercent);
+        
+        appState.priceHistory.push({
+          price: parseFloat(price.toFixed(2)),
+          date: date,
+          change: parseFloat((price - (i === 30 ? price : appState.priceHistory[appState.priceHistory.length - 1].price)).toFixed(2))
+        });
+      }
+      localStorage.setItem('priceHistory', JSON.stringify(appState.priceHistory));
+    }
+    
+    updatePriceDisplay();
+    initChart();
+  }
+
+  // Grafiği başlat
+  function initChart() {
+    const ctx = document.getElementById('historyChartCanvas').getContext('2d');
+    
+    const labels = appState.priceHistory.slice(-7).map(entry => 
+      new Date(entry.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+    );
+    
+    const data = appState.priceHistory.slice(-7).map(entry => entry.price);
+    
+    appState.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Has Altın Fiyatı (₺)',
+          data: data,
+          borderColor: '#ffd700',
+          backgroundColor: 'rgba(255, 215, 0, 0.1)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Fiyat: ${formatPara(context.raw)}`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: function(value) {
+                return formatPara(value);
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Grafiği güncelle
+  function updateChart() {
+    if (!appState.chart) return;
+    
+    const last7Entries = appState.priceHistory.slice(-7);
+    appState.chart.data.labels = last7Entries.map(entry => 
+      new Date(entry.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+    );
+    appState.chart.data.datasets[0].data = last7Entries.map(entry => entry.price);
+    appState.chart.update();
+  }
+
+  // Tüm geçmiş modalını göster
+  function showHistoryModal() {
+    const modal = new bootstrap.Modal(document.getElementById('historyModal'));
+    
+    const historyTableBody = document.getElementById('historyTableBody');
+    historyTableBody.innerHTML = '';
+    
+    appState.priceHistory.slice().reverse().forEach(entry => {
+      const row = document.createElement('tr');
+      const change = entry.change;
+      const changePercent = (change / (entry.price - change)) * 100;
+      
+      row.innerHTML = `
+        <td>${new Date(entry.date).toLocaleString('tr-TR')}</td>
+        <td>${formatPara(entry.price)}</td>
+        <td class="${change >= 0 ? 'price-up' : 'price-down'}">
+          ${change >= 0 ? '+' : ''}${formatPara(change)} (${changePercent.toFixed(2)}%)
+        </td>
+      `;
+      historyTableBody.appendChild(row);
+    });
+    
+    const fullCtx = document.getElementById('fullHistoryChartCanvas').getContext('2d');
+    
+    if (appState.fullChart) {
+      appState.fullChart.destroy();
+    }
+    
+    const allLabels = appState.priceHistory.map(entry => 
+      new Date(entry.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+    );
+    
+    const allData = appState.priceHistory.map(entry => entry.price);
+    
+    appState.fullChart = new Chart(fullCtx, {
+      type: 'line',
+      data: {
+        labels: allLabels,
+        datasets: [{
+          label: 'Has Altın Fiyatı (₺)',
+          data: allData,
+          borderColor: '#ffd700',
+          backgroundColor: 'rgba(255, 215, 0, 0.1)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Fiyat: ${formatPara(context.raw)}`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: function(value) {
+                return formatPara(value);
+              }
+            }
+          }
+        }
+      }
+    });
+    
+    modal.show();
+  }
+
+  // Yeni altın ekle modalını göster
+  function showAddGoldModal() {
+    const modal = new bootstrap.Modal(document.getElementById('addGoldModal'));
+    document.getElementById('addGoldForm').reset();
+    modal.show();
+  }
+
+  // Yeni altın türü ekle
+  function addNewGoldType() {
+    const goldName = document.getElementById('goldName').value.trim();
+    const hasAlisCarpan = parseFloat(document.getElementById('hasAlisCarpan').value);
+    const hasSatisCarpan = parseFloat(document.getElementById('hasSatisCarpan').value);
+    
+    if (!goldName) {
+      showStatus('Altın türü adı boş olamaz!', 'error');
+      return;
+    }
+    
+    if (appState.altinlar.some(a => a.tur.toLowerCase() === goldName.toLowerCase())) {
+      showStatus('Bu isimde bir altın türü zaten var!', 'error');
+      return;
+    }
+    
+    if (isNaN(hasAlisCarpan) || isNaN(hasSatisCarpan) || hasAlisCarpan <= 0 || hasSatisCarpan <= 0) {
+      showStatus('Geçersiz çarpan değerleri!', 'error');
+      return;
+    }
+    
+    appState.altinlar.push({
+      tur: goldName,
+      hasAlisCarpan: hasAlisCarpan,
+      hasSatisCarpan: hasSatisCarpan,
+      manuelAlis: null
+    });
+    
+    appState.simulationAltinlar.push({
+      tur: goldName,
+      hasAlisCarpan: hasAlisCarpan,
+      hasSatisCarpan: hasSatisCarpan,
+      manuelAlis: null
+    });
+    
+    tabloyuDoldur();
+    refreshSimulationTable();
+    showStatus('Yeni altın türü başarıyla eklendi!', 'success');
+    initHighlightSettings();
+    bootstrap.Modal.getInstance(document.getElementById('addGoldModal')).hide();
+  }
+
+  // Çarpanları değiştirme
+  function carpanlariDegistir() {
+    let message = "Hangi altın türünün çarpanını değiştirmek istiyorsun?\n";
+    appState.altinlar.forEach((altin, index) => {
+      message += `${index + 1}. ${altin.tur} (Has Alış: ${altin.hasAlisCarpan}, Has Satış: ${altin.hasSatisCarpan})\n`;
+    });
+    
+    const secim = prompt(message);
+    const secilenIndex = parseInt(secim) - 1;
+    
+    if (secilenIndex >= 0 && secilenIndex < appState.altinlar.length) {
+      const altin = appState.altinlar[secilenIndex];
+      
+      const yeniHasAlis = prompt(
+        `${altin.tur} için yeni Has Alış Çarpanı girin:\n(Eski: ${altin.hasAlisCarpan})`,
+        altin.hasAlisCarpan
+      );
+      
+      const yeniHasSatis = prompt(
+        `${altin.tur} için yeni Has Satış Çarpanı girin:\n(Eski: ${altin.hasSatisCarpan})`,
+        altin.hasSatisCarpan
+      );
+      
+      if (yeniHasAlis !== null && !isNaN(yeniHasAlis) && yeniHasAlis !== "") {
+        altin.hasAlisCarpan = parseFloat(yeniHasAlis);
+      }
+      
+      if (yeniHasSatis !== null && !isNaN(yeniHasSatis) && yeniHasSatis !== "") {
+        altin.hasSatisCarpan = parseFloat(yeniHasSatis);
+      }
+      
+      altin.manuelAlis = null;
+      tabloyuDoldur();
+      refreshSimulationTable();
+      showStatus('Çarpanlar başarıyla değiştirildi!', 'success');
+    } else {
+      showStatus('Geçersiz seçim yapıldı.', 'error');
+    }
+  }
+
+  // Sıralamayı değiştirme
+  function siralamaDegistir() {
+    let message = "Hangi altın türünün sırasını değiştirmek istiyorsun?\n";
+    appState.altinlar.forEach((altin, index) => {
+      message += `${index + 1}. ${altin.tur}\n`;
+    });
+    
+    const eskiIndex = prompt(`${message}\nTaşınacak altın numarasını girin:`) - 1;
+    const yeniIndex = prompt("Yeni sıra numarasını girin (1-" + appState.altinlar.length + "):") - 1;
+    
+    if (!isNaN(eskiIndex) && !isNaN(yeniIndex) && 
+        eskiIndex >= 0 && eskiIndex < appState.altinlar.length && 
+        yeniIndex >= 0 && yeniIndex < appState.altinlar.length) {
+      const [seciliAltin] = appState.altinlar.splice(eskiIndex, 1);
+      appState.altinlar.splice(yeniIndex, 0, seciliAltin);
+      
+      const [seciliSimAltin] = appState.simulationAltinlar.splice(eskiIndex, 1);
+      appState.simulationAltinlar.splice(yeniIndex, 0, seciliSimAltin);
+      
+      tabloyuDoldur();
+      refreshSimulationTable();
+      showStatus('Sıralama başarıyla değiştirildi!', 'success');
+    } else {
+      showStatus('Geçersiz seçim yapıldı.', 'error');
+    }
+  }
+
+  // Tema seçici modalını göster
+  function showThemeSelector() {
+    const modal = new bootstrap.Modal(document.getElementById('themeModal'));
+    modal.show();
+  }
+  
+  // Tema değiştir
+  function changeTheme(themeName) {
+    // Tüm tema sınıflarını kaldır
+    document.body.classList.remove('dark-mode', 'blue-theme', 'green-theme', 'purple-theme', 'orange-theme', 'red-theme');
+    
+    // Yeni tema sınıfını ekle
+    if (themeName !== 'default') {
+      document.body.classList.add(themeName + '-theme');
+    }
+    
+    // Tema tercihini kaydet
+    localStorage.setItem('selectedTheme', themeName);
+    appState.selectedTheme = themeName;
+    
+    // Grafikleri yenile
+    if (appState.chart) {
+      appState.chart.destroy();
+      initChart();
+    }
+    if (appState.fullChart) {
+      appState.fullChart.destroy();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('historyModal'));
+      if (modal) {
+        modal.hide();
+      }
+    }
+    
+    // Modal'ı kapat
+    const themeModal = bootstrap.Modal.getInstance(document.getElementById('themeModal'));
+    if (themeModal) {
+      themeModal.hide();
+    }
+    
+    showStatus(`${themeName === 'default' ? 'Varsayılan' : themeName.charAt(0).toUpperCase() + themeName.slice(1)} tema uygulandı`, 'success');
+  }
+  
+  // Koyu mod geçişi (geriye uyumluluk için)
+  function toggleDarkMode() {
+    changeTheme('dark');
+  }
+
+  // Arama fonksiyonu
+  function aramaYap() {
+    const aramaKelimesi = document.getElementById('searchInput').value.toLowerCase();
+    const satirlar = document.querySelectorAll('#fiyatTablosu tr');
+    
+    satirlar.forEach(satir => {
+      const altinTuru = satir.cells[0].textContent.toLowerCase();
+      if (altinTuru.includes(aramaKelimesi)) {
+        satir.style.display = '';
+      } else {
+        satir.style.display = 'none';
+      }
+    });
+  }
+
+  // Para formatlama
+  function formatPara(miktar) {
+    return parseFloat(miktar).toLocaleString('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  // Durum göstergesi
+  function showStatus(message, type = 'success') {
+    const status = document.getElementById('connectionStatus');
+    const iconMap = {
+      success: 'bi-check-circle',
+      error: 'bi-exclamation-triangle',
+      warning: 'bi-exclamation-circle',
+      info: 'bi-info-circle'
+    };
+    
+    status.innerHTML = `<i class="bi ${iconMap[type] || 'bi-info-circle'}"></i> <span>${message}</span>`;
+    status.className = `status-indicator ${type} show`;
+    
+    setTimeout(() => {
+      status.classList.remove('show');
+    }, 3000);
+  }
+
+  // Highlight ayarlarını başlat
+  function initHighlightSettings() {
+    const container = document.getElementById('goldTypesContainer');
+    container.innerHTML = '';
+    
+    appState.altinlar.forEach(altin => {
+      const item = document.createElement('div');
+      item.className = 'multi-select-item';
+      item.textContent = altin.tur;
+      item.dataset.goldType = altin.tur;
+      
+      if (appState.highlightSettings[altin.tur]) {
+        item.classList.add('selected');
+      }
+      
+      item.addEventListener('click', function() {
+        this.classList.toggle('selected');
+      });
+      
+      container.appendChild(item);
+    });
+    
+    document.getElementById('highlightSize').value = appState.highlightSettings.size || 'normal';
+    document.getElementById('highlightColor').value = appState.highlightSettings.color || '#d9534f';
+    document.getElementById('highlightBold').checked = appState.highlightSettings.bold || false;
+    document.getElementById('highlightColorPreview').style.backgroundColor = appState.highlightSettings.color || '#d9534f';
+    
+    document.getElementById('highlightColor').addEventListener('input', function() {
+      document.getElementById('highlightColorPreview').style.backgroundColor = this.value;
+    });
+  }
+
+  // Tüm altın türlerini seç
+  function selectAllGoldTypes() {
+    const items = document.querySelectorAll('.multi-select-item');
+    items.forEach(item => {
+      item.classList.add('selected');
+    });
+  }
+
+  // Ayarlar panelini aç/kapat
+  function toggleSettingsPanel() {
+    document.getElementById('settingsPanel').classList.toggle('show');
+  }
+
+  // Vurguyu uygula
+  function applyHighlight() {
+    const selectedItems = document.querySelectorAll('.multi-select-item.selected');
+    const size = document.getElementById('highlightSize').value;
+    const color = document.getElementById('highlightColor').value;
+    const bold = document.getElementById('highlightBold').checked;
+    
+    if (selectedItems.length === 0) {
+      showStatus('Lütfen en az bir altın türü seçin!', 'error');
+      return;
+    }
+    
+    const selectedGoldTypes = Array.from(selectedItems).map(item => item.dataset.goldType);
+    
+    selectedGoldTypes.forEach(goldType => {
+      if (!appState.highlightSettings[goldType]) {
+        appState.highlightSettings[goldType] = {};
+      }
+      appState.highlightSettings[goldType] = { size, color, bold };
+    });
+    
+    appState.highlightSettings.size = size;
+    appState.highlightSettings.color = color;
+    appState.highlightSettings.bold = bold;
+    
+    localStorage.setItem('highlightSettings', JSON.stringify(appState.highlightSettings));
+    updateHighlightedRows();
+    showStatus(`${selectedGoldTypes.length} altın türü vurgulandı!`, 'success');
+  }
+
+  // Kayıtlı vurguyu uygula
+  function applySavedHighlight() {
+    updateHighlightedRows();
+  }
+
+  // Vurgulu satırları güncelle
+  function updateHighlightedRows() {
+    document.querySelectorAll('.highlighted').forEach(el => {
+      el.classList.remove('highlighted');
+      el.style.fontSize = '';
+      el.style.color = '';
+      el.style.fontWeight = '';
+    });
+    
+    const rows = document.querySelectorAll('#fiyatTablosu tr');
+    rows.forEach(row => {
+      const goldType = row.cells[0].textContent;
+      const settings = appState.highlightSettings[goldType];
+      
+      if (settings) {
+        const sizeMap = {
+          normal: '1rem',
+          large: '1.2rem',
+          xlarge: '1.4rem'
+        };
+        
+        [row.cells[1], row.cells[2]].forEach(cell => {
+          cell.classList.add('highlighted');
+          cell.style.fontSize = sizeMap[settings.size || appState.highlightSettings.size || 'normal'];
+          cell.style.color = settings.color || appState.highlightSettings.color || '#d9534f';
+          cell.style.fontWeight = (settings.bold || appState.highlightSettings.bold) ? 'bold' : '';
+        });
+      }
+    });
+  }
+
+  // Vurguyu kaldır
+  function removeHighlight() {
+    document.querySelectorAll('.highlighted').forEach(el => {
+      el.classList.remove('highlighted');
+      el.style.fontSize = '';
+      el.style.color = '';
+      el.style.fontWeight = '';
+    });
+    
+    document.querySelectorAll('.multi-select-item.selected').forEach(item => {
+      item.classList.remove('selected');
+    });
+    
+    appState.highlightSettings = {};
+    localStorage.removeItem('highlightSettings');
+    showStatus('Tüm vurgular kaldırıldı!', 'info');
+  }
+
+  // Kapalı Çarşı fiyatlarını göster
+  function showKapaliCarsiPrices() {
+    // CanlıDöviz.com'dan Kapalı Çarşı fiyatlarını çek
+    // Netlify için CORS proxy kullan
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    const targetUrl = 'https://canlidoviz.com/altin-fiyatlari/kapali-carsi/has-altin';
+    fetch(proxyUrl + encodeURIComponent(targetUrl))
+      .then(response => {
+        if (!response.ok) throw new Error('API hatası');
+        return response.text();
+      })
+      .then(html => {
+        // HTML içeriğinden fiyat bilgilerini çıkar
+        const alisMatch = html.match(/BAYİ ALIŞ[^>]*>([0-9,\.]+)/i) || 
+                         html.match(/4778\.00/) ||
+                         html.match(/alış[^>]*>([0-9,\.]+)/i) ||
+                         html.match(/([0-9,\.]+).*BAYİ ALIŞ/i);
+        const satisMatch = html.match(/BAYİ SATIŞ[^>]*>([0-9,\.]+)/i) || 
+                          html.match(/4800\.80/) ||
+                          html.match(/satış[^>]*>([0-9,\.]+)/i) ||
+                          html.match(/([0-9,\.]+).*BAYİ SATIŞ/i);
+        
+        if (alisMatch && satisMatch) {
+          // Fiyatları çıkar ve temizle
+          let alisPrice = alisMatch[1] || alisMatch[0];
+          let satisPrice = satisMatch[1] || satisMatch[0];
+          
+          // Sadece sayıları al ve virgülü noktaya çevir
+          alisPrice = alisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
+          satisPrice = satisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
+          
+          const alisPriceNum = parseFloat(alisPrice);
+          const satisPriceNum = parseFloat(satisPrice);
+          
+          // Kapalı Çarşı fiyatları modalını göster
+          const kapaliCarsiContent = `
+            <div class="col-md-6 mb-3">
+              <div class="price-card">
+                <h5><i class="bi bi-gem"></i> Has Altın - Kapalı Çarşı</h5>
+                <p><strong>Bayi Alış:</strong> ${formatPara(alisPriceNum)}</p>
+                <p><strong>Bayi Satış:</strong> ${formatPara(satisPriceNum)}</p>
+                <p><strong>Kaynak:</strong> CanlıDöviz.com</p>
+                <p><strong>Güncelleme:</strong> ${new Date().toLocaleString('tr-TR')}</p>
+              </div>
+            </div>
+          `;
+          
+          const kapaliCarsiModalBody = document.getElementById('kapaliCarsiModalBody');
+          if (kapaliCarsiModalBody) {
+            kapaliCarsiModalBody.innerHTML = `<div class="row">${kapaliCarsiContent}</div>`;
+            const kapaliCarsiModal = new bootstrap.Modal(document.getElementById('kapaliCarsiModal'));
+            kapaliCarsiModal.show();
+          } else {
+            // If modal body doesn't exist, create a simple alert
+            alert(`Kapalı Çarşı Has Altın Fiyatları:\n\nBayi Alış: ${formatPara(alisPriceNum)}\nBayi Satış: ${formatPara(satisPriceNum)}\n\nKaynak: CanlıDöviz.com`);
+          }
+          showStatus('CanlıDöviz.com\'dan Kapalı Çarşı fiyatları yüklendi.', 'success');
+        } else {
+          throw new Error('CanlıDöviz.com\'dan fiyat bilgileri bulunamadı');
+        }
+      })
+      .catch(error => {
+        console.error('CanlıDöviz.com API hatası:', error);
+        showStatus('Kapalı Çarşı fiyatları yüklenirken hata oluştu.', 'error');
+      });
+  }
+
+  // Saat ve tarih güncelleme
+  function updateSaatTarih() {
+    const date = new Date();
+    const options = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit',
+      hour12: false
+    };
+    document.getElementById('saatTarih').textContent = date.toLocaleDateString('tr-TR', options);
+  }
+
+  // Saat güncellemesini başlat
+  setInterval(updateSaatTarih, 1000);
+
+  // Tüm metinleri değiştirme fonksiyonu
+  function changeAllTexts() {
+    const headerElement = document.getElementById('headerTitle');
+    const currentText = headerElement.textContent.trim();
+    const newText = prompt('Yeni kurum adını girin:', currentText);
+    
+    if (newText !== null && newText.trim() !== '') {
+      const trimmedText = newText.trim();
+      
+      // Header başlığını değiştir
+      headerElement.textContent = trimmedText;
+      
+      // Sayfa başlığını değiştir
+      document.getElementById('pageTitle').textContent = trimmedText + ' - Profesyonel Altın Takip';
+      
+      showStatus('Tüm metinler güncellendi!', 'success');
+    } else if (newText !== null) {
+      showStatus('Kurum adı boş bırakılamaz!', 'error');
+    }
+  }
+
+  // Başlık metnini değiştirme fonksiyonu (geriye uyumluluk için)
+  function changeHeaderText() {
+    changeAllTexts();
+  }
+</script>
+</body>
+</html>
