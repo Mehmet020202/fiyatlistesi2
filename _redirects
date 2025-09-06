@@ -1,0 +1,9 @@
+# Netlify redirects for SPA
+/*    /index.html   200
+
+# CORS headers for API calls
+/api/*  https://api.allorigins.win/raw?url=https://canlidoviz.com/altin-fiyatlari/kapali-carsi/has-altin  200
+
+# Cache static assets
+/icons/*  /icons/*  200
+manifest.json  /manifest.json  200

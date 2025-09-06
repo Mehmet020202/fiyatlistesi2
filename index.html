@@ -537,6 +537,7 @@
     }
   </style>
   <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192x192.png" type="image/png">
   <script>
     // Service Worker'ı tamamen devre dışı bırak
     console.log("Altın Takip Uygulaması başlatılıyor...");
@@ -591,9 +592,9 @@
   </button>
 </header>
 
-<button class="btn btn-primary settings-toggle" onclick="toggleSettingsPanel()">
-  <i class="bi bi-palette"></i> Görünüm Ayarları
-</button>n>
+  <button class="btn btn-primary settings-toggle" onclick="toggleSettingsPanel()">
+    <i class="bi bi-palette"></i> Görünüm Ayarları
+  </button>
 
 <div class="settings-panel" id="settingsPanel">
   <h5><i class="bi bi-sliders"></i> Özel Görünüm Ayarları</h5>
@@ -1384,35 +1385,20 @@
 
   // Altın fiyatını güncelle
   function updateGoldPrice() {
-    // CanlıDöviz.com'dan Kapalı Çarşı Has Altın fiyatlarını çek
-    fetch('https://canlidoviz.com/altin-fiyatlari/kapali-carsi/has-altin')
+    // Netlify Functions kullanarak fiyat verilerini çek
+    console.log('Netlify Functions ile fiyat güncelleniyor...');
+    
+    fetch('/.netlify/functions/fetch-gold-prices')
       .then(response => {
-        if (!response.ok) throw new Error('API hatası');
-        return response.text();
+        if (!response.ok) throw new Error('Netlify Functions hatası');
+        return response.json();
       })
-      .then(html => {
-        // HTML içeriğinden fiyat bilgilerini çıkar
-        // CanlıDöviz.com'dan gelen HTML'de fiyatları bul
-        const alisMatch = html.match(/BAYİ ALIŞ[^>]*>([0-9,\.]+)/i) || 
-                         html.match(/4778\.00/) ||
-                         html.match(/alış[^>]*>([0-9,\.]+)/i) ||
-                         html.match(/([0-9,\.]+).*BAYİ ALIŞ/i);
-        const satisMatch = html.match(/BAYİ SATIŞ[^>]*>([0-9,\.]+)/i) || 
-                          html.match(/4800\.80/) ||
-                          html.match(/satış[^>]*>([0-9,\.]+)/i) ||
-                          html.match(/([0-9,\.]+).*BAYİ SATIŞ/i);
+      .then(data => {
+        console.log('Netlify Functions yanıtı:', data);
         
-        if (alisMatch && satisMatch) {
-          // Fiyatları çıkar ve temizle
-          let alisPrice = alisMatch[1] || alisMatch[0];
-          let satisPrice = satisMatch[1] || satisMatch[0];
-          
-          // Sadece sayıları al ve virgülü noktaya çevir
-          alisPrice = alisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
-          satisPrice = satisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
-          
-          const newAlisPrice = parseFloat(alisPrice);
-          const newSatisPrice = parseFloat(satisPrice);
+        if (data.success && data.data) {
+          const newAlisPrice = data.data.alis;
+          const newSatisPrice = data.data.satis;
           
           // Geçerli fiyat kontrolü
           if (isNaN(newAlisPrice) || isNaN(newSatisPrice) || newAlisPrice <= 0 || newSatisPrice <= 0) {
@@ -1466,15 +1452,61 @@
           refreshSimulationTable();
           updateChart();
 
-          showStatus(`CanlıDöviz.com'dan güncel fiyatlar: Alış ${formatPara(newAlisPrice)}, Satış ${formatPara(newSatisPrice)}`, 'success');
+          showStatus(`Netlify Functions'dan güncel fiyatlar: Alış ${formatPara(newAlisPrice)}, Satış ${formatPara(newSatisPrice)}`, 'success');
+        } else if (data.fallback) {
+          // Fallback verilerini kullan
+          console.log('Fallback verileri kullanılıyor:', data.fallback);
+          const newAlisPrice = data.fallback.alis;
+          const newSatisPrice = data.fallback.satis;
+          
+          appState.anlikHasAlisFiyat = newAlisPrice;
+          appState.anlikHasSatisFiyat = newSatisPrice;
+          appState.previousPrice = appState.anlikHasFiyat;
+          
+          if (appState.autoUpdatePriceType === 'alis') {
+            appState.anlikHasFiyat = newAlisPrice;
+          } else if (appState.autoUpdatePriceType === 'satis') {
+            appState.anlikHasFiyat = newSatisPrice;
+          } else {
+            appState.anlikHasFiyat = newAlisPrice;
+          }
+          
+          document.getElementById('hasAlisFiyati').textContent = formatPara(newAlisPrice);
+          document.getElementById('hasSatisFiyati').textContent = formatPara(newSatisPrice);
+          
+          localStorage.setItem('anlikHasFiyat', appState.anlikHasFiyat);
+          localStorage.setItem('anlikHasAlisFiyat', appState.anlikHasAlisFiyat);
+          localStorage.setItem('anlikHasSatisFiyat', appState.anlikHasSatisFiyat);
+          localStorage.setItem('previousPrice', appState.previousPrice);
+          
+          const historyEntry = {
+            price: appState.anlikHasFiyat,
+            date: new Date(),
+            change: appState.anlikHasFiyat - appState.previousPrice
+          };
+          appState.priceHistory.push(historyEntry);
+          
+          if (appState.priceHistory.length > 100) {
+            appState.priceHistory.shift();
+          }
+          
+          localStorage.setItem('priceHistory', JSON.stringify(appState.priceHistory));
+          
+          updatePriceDisplay();
+          tabloyuDoldur();
+          refreshSimulationTable();
+          updateChart();
+          
+          showStatus(`Fallback verileri kullanıldı: Alış ${formatPara(newAlisPrice)}, Satış ${formatPara(newSatisPrice)}`, 'warning');
         } else {
-          throw new Error('CanlıDöviz.com\'dan fiyat bilgileri bulunamadı');
+          throw new Error('Netlify Functions\'dan geçersiz yanıt');
         }
       })
       .catch(error => {
-        console.error('CanlıDöviz.com API hatası:', error);
-        showStatus('CanlıDöviz.com verisi alınamadı, demo modunda güncellendi', 'warning');
-        // Fallback to demo mode if API fails
+        console.error('Netlify Functions hatası:', error);
+        showStatus('Netlify Functions verisi alınamadı, demo modunda güncellendi', 'warning');
+        
+        // Fallback to demo mode if all APIs fail
         const changePercent = (Math.random() * 2 - 1) / 100;
         const newPrice = appState.anlikHasFiyat * (1 + changePercent);
         updatePrice(parseFloat(newPrice.toFixed(2)));
@@ -1991,34 +2023,20 @@
 
   // Kapalı Çarşı fiyatlarını göster
   function showKapaliCarsiPrices() {
-    // CanlıDöviz.com'dan Kapalı Çarşı fiyatlarını çek
-    fetch('https://canlidoviz.com/altin-fiyatlari/kapali-carsi/has-altin')
+    // Netlify Functions kullanarak Kapalı Çarşı fiyatlarını çek
+    console.log('Netlify Functions ile Kapalı Çarşı fiyatları yükleniyor...');
+    
+    fetch('/.netlify/functions/fetch-gold-prices')
       .then(response => {
-        if (!response.ok) throw new Error('API hatası');
-        return response.text();
+        if (!response.ok) throw new Error('Netlify Functions hatası');
+        return response.json();
       })
-      .then(html => {
-        // HTML içeriğinden fiyat bilgilerini çıkar
-        const alisMatch = html.match(/BAYİ ALIŞ[^>]*>([0-9,\.]+)/i) || 
-                         html.match(/4778\.00/) ||
-                         html.match(/alış[^>]*>([0-9,\.]+)/i) ||
-                         html.match(/([0-9,\.]+).*BAYİ ALIŞ/i);
-        const satisMatch = html.match(/BAYİ SATIŞ[^>]*>([0-9,\.]+)/i) || 
-                          html.match(/4800\.80/) ||
-                          html.match(/satış[^>]*>([0-9,\.]+)/i) ||
-                          html.match(/([0-9,\.]+).*BAYİ SATIŞ/i);
+      .then(data => {
+        console.log('Kapalı Çarşı Netlify Functions yanıtı:', data);
         
-        if (alisMatch && satisMatch) {
-          // Fiyatları çıkar ve temizle
-          let alisPrice = alisMatch[1] || alisMatch[0];
-          let satisPrice = satisMatch[1] || satisMatch[0];
-          
-          // Sadece sayıları al ve virgülü noktaya çevir
-          alisPrice = alisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
-          satisPrice = satisPrice.replace(/[^\d,\.]/g, '').replace(',', '.');
-          
-          const alisPriceNum = parseFloat(alisPrice);
-          const satisPriceNum = parseFloat(satisPrice);
+        if (data.success && data.data) {
+          const alisPriceNum = data.data.alis;
+          const satisPriceNum = data.data.satis;
           
           // Kapalı Çarşı fiyatları modalını göster
           const kapaliCarsiContent = `
@@ -2027,8 +2045,8 @@
                 <h5><i class="bi bi-gem"></i> Has Altın - Kapalı Çarşı</h5>
                 <p><strong>Bayi Alış:</strong> ${formatPara(alisPriceNum)}</p>
                 <p><strong>Bayi Satış:</strong> ${formatPara(satisPriceNum)}</p>
-                <p><strong>Kaynak:</strong> CanlıDöviz.com</p>
-                <p><strong>Güncelleme:</strong> ${new Date().toLocaleString('tr-TR')}</p>
+                <p><strong>Kaynak:</strong> ${data.data.source}</p>
+                <p><strong>Güncelleme:</strong> ${new Date(data.data.timestamp).toLocaleString('tr-TR')}</p>
               </div>
             </div>
           `;
@@ -2040,15 +2058,41 @@
             kapaliCarsiModal.show();
           } else {
             // If modal body doesn't exist, create a simple alert
-            alert(`Kapalı Çarşı Has Altın Fiyatları:\n\nBayi Alış: ${formatPara(alisPriceNum)}\nBayi Satış: ${formatPara(satisPriceNum)}\n\nKaynak: CanlıDöviz.com`);
+            alert(`Kapalı Çarşı Has Altın Fiyatları:\n\nBayi Alış: ${formatPara(alisPriceNum)}\nBayi Satış: ${formatPara(satisPriceNum)}\n\nKaynak: ${data.data.source}`);
           }
-          showStatus('CanlıDöviz.com\'dan Kapalı Çarşı fiyatları yüklendi.', 'success');
+          showStatus('Netlify Functions\'dan Kapalı Çarşı fiyatları yüklendi.', 'success');
+        } else if (data.fallback) {
+          // Fallback verilerini kullan
+          const alisPriceNum = data.fallback.alis;
+          const satisPriceNum = data.fallback.satis;
+          
+          const kapaliCarsiContent = `
+            <div class="col-md-6 mb-3">
+              <div class="price-card">
+                <h5><i class="bi bi-gem"></i> Has Altın - Kapalı Çarşı (Fallback)</h5>
+                <p><strong>Bayi Alış:</strong> ${formatPara(alisPriceNum)}</p>
+                <p><strong>Bayi Satış:</strong> ${formatPara(satisPriceNum)}</p>
+                <p><strong>Kaynak:</strong> ${data.fallback.source}</p>
+                <p><strong>Güncelleme:</strong> ${new Date(data.fallback.timestamp).toLocaleString('tr-TR')}</p>
+              </div>
+            </div>
+          `;
+          
+          const kapaliCarsiModalBody = document.getElementById('kapaliCarsiModalBody');
+          if (kapaliCarsiModalBody) {
+            kapaliCarsiModalBody.innerHTML = `<div class="row">${kapaliCarsiContent}</div>`;
+            const kapaliCarsiModal = new bootstrap.Modal(document.getElementById('kapaliCarsiModal'));
+            kapaliCarsiModal.show();
+          } else {
+            alert(`Kapalı Çarşı Has Altın Fiyatları (Fallback):\n\nBayi Alış: ${formatPara(alisPriceNum)}\nBayi Satış: ${formatPara(satisPriceNum)}\n\nKaynak: ${data.fallback.source}`);
+          }
+          showStatus('Fallback verileri ile Kapalı Çarşı fiyatları yüklendi.', 'warning');
         } else {
-          throw new Error('CanlıDöviz.com\'dan fiyat bilgileri bulunamadı');
+          throw new Error('Netlify Functions\'dan geçersiz yanıt');
         }
       })
       .catch(error => {
-        console.error('CanlıDöviz.com API hatası:', error);
+        console.error('Kapalı Çarşı Netlify Functions hatası:', error);
         showStatus('Kapalı Çarşı fiyatları yüklenirken hata oluştu.', 'error');
       });
   }

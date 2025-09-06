@@ -1,0 +1,22 @@
+{
+  "name": "gold-tracker",
+  "version": "1.0.0",
+  "description": "Profesyonel Altın Takip Uygulaması",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "dev": "npx http-server -p 8080 -c-1"
+  },
+  "keywords": [
+    "gold",
+    "tracker",
+    "altın",
+    "fiyat",
+    "kuyumcu"
+  ],
+  "author": "Kahta Kuyumcular Derneği",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
