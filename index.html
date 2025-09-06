@@ -1061,8 +1061,8 @@
         <td><input type="number" step="0.001" class="form-control" 
              value="${altin.hasSatisCarpan}" 
              onchange="updateSimulationMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
-        <td>${formatPara(roundDownToFive(appState.anlikHasFiyat * altin.hasAlisCarpan))}</td>
-        <td>${formatPara(roundUpToFive(appState.anlikHasFiyat * altin.hasSatisCarpan))}</td>
+        <td>${formatPara(roundDownToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'satis' ? altin.hasSatisCarpan : altin.hasAlisCarpan)))}</td>
+        <td>${formatPara(roundUpToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'alis' ? altin.hasAlisCarpan : altin.hasSatisCarpan)))}</td>
       `;
       tableBody.appendChild(row);
     });
@@ -1112,9 +1112,22 @@
     }
 
     appState.altinlar.forEach((altin, index) => {
-      // Her zaman kendi çarpanlarını kullan - otomatik güncelleme tipi sadece hangi has fiyatı kullanılacağını belirler
-      const alisCarpan = altin.hasAlisCarpan;
-      const satisCarpan = altin.hasSatisCarpan;
+      // Otomatik güncelleme tipine göre çarpanları belirle
+      let alisCarpan, satisCarpan;
+      
+      if (appState.autoUpdatePriceType === 'alis') {
+        // Alış seçilirse: Her altın türü Has Alış çarpanını kullanır
+        alisCarpan = altin.hasAlisCarpan;
+        satisCarpan = altin.hasAlisCarpan; // Satış da alış çarpanını kullanır
+      } else if (appState.autoUpdatePriceType === 'satis') {
+        // Satış seçilirse: Her altın türü Has Satış çarpanını kullanır
+        alisCarpan = altin.hasSatisCarpan; // Alış da satış çarpanını kullanır
+        satisCarpan = altin.hasSatisCarpan;
+      } else {
+        // Manuel mod: Kendi çarpanlarını kullan
+        alisCarpan = altin.hasAlisCarpan;
+        satisCarpan = altin.hasSatisCarpan;
+      }
 
       // Satış fiyatını hesapla
       const satisFiyati = hasFiyat * satisCarpan;
