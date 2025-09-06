@@ -1061,8 +1061,8 @@
         <td><input type="number" step="0.001" class="form-control" 
              value="${altin.hasSatisCarpan}" 
              onchange="updateSimulationMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
-        <td>${formatPara(appState.anlikHasFiyat * altin.hasAlisCarpan)}</td>
-        <td>${formatPara(appState.anlikHasFiyat * altin.hasSatisCarpan)}</td>
+        <td>${formatPara(roundDownToFive(appState.anlikHasFiyat * altin.hasAlisCarpan))}</td>
+        <td>${formatPara(roundUpToFive(appState.anlikHasFiyat * altin.hasSatisCarpan))}</td>
       `;
       tableBody.appendChild(row);
     });
@@ -1112,26 +1112,17 @@
     }
 
     appState.altinlar.forEach((altin, index) => {
-      // Otomatik güncelleme tipine göre çarpanları belirle
-      let alisCarpan, satisCarpan;
-      if (appState.autoUpdatePriceType === 'alis') {
-        alisCarpan = altin.hasAlisCarpan;
-        satisCarpan = altin.hasAlisCarpan; // Alış fiyatına göre satış da hesaplanır
-      } else if (appState.autoUpdatePriceType === 'satis') {
-        alisCarpan = altin.hasSatisCarpan; // Satış fiyatına göre alış da hesaplanır
-        satisCarpan = altin.hasSatisCarpan;
-      } else {
-        // Manuel mod - ortalama çarpanlar kullan
-        alisCarpan = altin.hasAlisCarpan;
-        satisCarpan = altin.hasSatisCarpan;
-      }
+      // Her zaman kendi çarpanlarını kullan - otomatik güncelleme tipi sadece hangi has fiyatı kullanılacağını belirler
+      const alisCarpan = altin.hasAlisCarpan;
+      const satisCarpan = altin.hasSatisCarpan;
 
+      // Satış fiyatını hesapla
       const satisFiyati = hasFiyat * satisCarpan;
       let alisFiyati;
 
       if (alisAyar === 'otomatik') {
         if (altin.tur === "Cumhuriyet (7,2)") {
-          alisFiyati = hasFiyat * altin.hasAlisCarpan * 7.20;
+          alisFiyati = hasFiyat * alisCarpan * 7.20;
         } else {
           alisFiyati = hasFiyat * alisCarpan;
         }
@@ -1140,7 +1131,7 @@
           alisFiyati = altin.manuelAlis;
         } else {
           if (altin.tur === "Cumhuriyet (7,2)") {
-            alisFiyati = hasFiyat * altin.hasAlisCarpan * 7.20;
+            alisFiyati = hasFiyat * alisCarpan * 7.20;
           } else {
             alisFiyati = hasFiyat * alisCarpan;
           }
@@ -1236,6 +1227,17 @@
     altin.hasAlisCarpan = parseFloat(newHasAlisCarpan);
     altin.hasSatisCarpan = parseFloat(newHasSatisCarpan);
     altin.manuelAlis = null;
+    
+    // Simülasyon listesini de güncelle
+    if (appState.simulationAltinlar[index]) {
+      appState.simulationAltinlar[index].tur = altin.tur;
+      appState.simulationAltinlar[index].hasAlisCarpan = altin.hasAlisCarpan;
+      appState.simulationAltinlar[index].hasSatisCarpan = altin.hasSatisCarpan;
+      appState.simulationAltinlar[index].manuelAlis = null;
+    }
+    
+    localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+    localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
     
     tabloyuDoldur();
     refreshSimulationTable();
@@ -1767,6 +1769,16 @@
       }
       
       altin.manuelAlis = null;
+      
+      // Simülasyon listesini de güncelle
+      if (appState.simulationAltinlar[secilenIndex]) {
+        appState.simulationAltinlar[secilenIndex].hasAlisCarpan = altin.hasAlisCarpan;
+        appState.simulationAltinlar[secilenIndex].hasSatisCarpan = altin.hasSatisCarpan;
+      }
+      
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+      localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
+      
       tabloyuDoldur();
       refreshSimulationTable();
       showStatus('Çarpanlar başarıyla değiştirildi!', 'success');
