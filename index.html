@@ -987,8 +987,8 @@
       { tur: "24 Ayar 1 Gram", hasAlisCarpan: 1.012, hasSatisCarpan: 1.012, manuelAlis: null }
     ])),
     anlikHasFiyat: parseFloat(localStorage.getItem('anlikHasFiyat')) || 2345.00,
-    anlikHasAlisFiyat: parseFloat(localStorage.getItem('anlikHasAlisFiyat')) || 0.00,
-    anlikHasSatisFiyat: parseFloat(localStorage.getItem('anlikHasSatisFiyat')) || 0.00,
+    anlikHasAlisFiyat: parseFloat(localStorage.getItem('anlikHasAlisFiyat')) || 2345.00,
+    anlikHasSatisFiyat: parseFloat(localStorage.getItem('anlikHasSatisFiyat')) || 2345.00,
     previousPrice: parseFloat(localStorage.getItem('previousPrice')) || 2345.00,
     autoUpdate: localStorage.getItem('autoUpdate') === 'true',
     autoUpdatePriceType: localStorage.getItem('autoUpdatePriceType') || 'alis',
@@ -1105,10 +1105,13 @@
     let hasFiyat;
     if (appState.autoUpdatePriceType === 'alis') {
       hasFiyat = appState.anlikHasAlisFiyat || appState.anlikHasFiyat;
+      console.log(`DEBUG: Alış seçili - anlikHasAlisFiyat: ${appState.anlikHasAlisFiyat}, anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     } else if (appState.autoUpdatePriceType === 'satis') {
       hasFiyat = appState.anlikHasSatisFiyat || appState.anlikHasFiyat;
+      console.log(`DEBUG: Satış seçili - anlikHasSatisFiyat: ${appState.anlikHasSatisFiyat}, anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     } else {
       hasFiyat = appState.anlikHasFiyat;
+      console.log(`DEBUG: Manuel mod - anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     }
 
     appState.altinlar.forEach((altin, index) => {
@@ -1132,6 +1135,11 @@
       // Satış fiyatını hesapla
       const satisFiyati = hasFiyat * satisCarpan;
       let alisFiyati;
+      
+      // Tam Altın için özel debug
+      if (altin.tur === "Tam Altın") {
+        console.log(`DEBUG Tam Altın: hasFiyat=${hasFiyat}, alisCarpan=${alisCarpan}, satisCarpan=${satisCarpan}, satisFiyati=${satisFiyati}`);
+      }
 
       if (alisAyar === 'otomatik') {
         if (altin.tur === "Cumhuriyet (7,2)") {
