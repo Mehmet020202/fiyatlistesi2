@@ -714,6 +714,8 @@
         <thead>
           <tr>
             <th>Altın Türü</th>
+            <th>Has Alış Çarpanı</th>
+            <th>Has Satış Çarpanı</th>
             <th>Alış Fiyatı</th>
             <th>Satış Fiyatı</th>
             <th>İşlemler</th>
@@ -1087,6 +1089,28 @@
     }
   }
 
+  // Ana tablo çarpanlarını güncelle
+  function updateMainMultiplier(index, field, value) {
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      // Ana listeyi güncelle
+      appState.altinlar[index][field] = numValue;
+      
+      // Simülasyon listesini de güncelle
+      if (appState.simulationAltinlar[index]) {
+        appState.simulationAltinlar[index][field] = numValue;
+      }
+      
+      // localStorage'a kaydet
+      localStorage.setItem('altinlar', JSON.stringify(appState.altinlar));
+      localStorage.setItem('simulationAltinlar', JSON.stringify(appState.simulationAltinlar));
+      
+      // Tabloları güncelle
+      tabloyuDoldur();
+      refreshSimulationTable();
+    }
+  }
+
   // Simülasyonu ana listeye aktar
   function syncToMain() {
     if (confirm('Simülasyon verilerini ana listeye aktarmak istediğinize emin misiniz?')) {
@@ -1114,13 +1138,10 @@
     let hasFiyat;
     if (appState.autoUpdatePriceType === 'alis') {
       hasFiyat = appState.anlikHasAlisFiyat || appState.anlikHasFiyat;
-      console.log(`DEBUG: Alış seçili - anlikHasAlisFiyat: ${appState.anlikHasAlisFiyat}, anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     } else if (appState.autoUpdatePriceType === 'satis') {
       hasFiyat = appState.anlikHasSatisFiyat || appState.anlikHasFiyat;
-      console.log(`DEBUG: Satış seçili - anlikHasSatisFiyat: ${appState.anlikHasSatisFiyat}, anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     } else {
       hasFiyat = appState.anlikHasFiyat;
-      console.log(`DEBUG: Manuel mod - anlikHasFiyat: ${appState.anlikHasFiyat}, hasFiyat: ${hasFiyat}`);
     }
 
     appState.altinlar.forEach((altin, index) => {
@@ -1144,11 +1165,6 @@
       // Satış fiyatını hesapla
       const satisFiyati = hasFiyat * satisCarpan;
       let alisFiyati;
-      
-      // Tam Altın için özel debug
-      if (altin.tur === "Tam Altın") {
-        console.log(`DEBUG Tam Altın: hasFiyat=${hasFiyat}, alisCarpan=${alisCarpan}, satisCarpan=${satisCarpan}, satisFiyati=${satisFiyati}`);
-      }
 
       if (alisAyar === 'otomatik') {
         if (altin.tur === "Cumhuriyet (7,2)") {
@@ -1176,6 +1192,12 @@
       satir.className = 'fade-in';
       satir.innerHTML = `
         <td>${altin.tur.toUpperCase()}</td>
+        <td><input type="number" step="0.001" class="form-control form-control-sm" 
+             value="${altin.hasAlisCarpan}" 
+             onchange="updateMainMultiplier(${index}, 'hasAlisCarpan', this.value)"></td>
+        <td><input type="number" step="0.001" class="form-control form-control-sm" 
+             value="${altin.hasSatisCarpan}" 
+             onchange="updateMainMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
         <td>${formatPara(roundedAlisFiyati)}</td>
         <td>${formatPara(roundedSatisFiyati)}</td>
         <td>
