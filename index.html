@@ -714,8 +714,6 @@
         <thead>
           <tr>
             <th>Altın Türü</th>
-            <th>Has Alış Çarpanı</th>
-            <th>Has Satış Çarpanı</th>
             <th>Alış Fiyatı</th>
             <th>Satış Fiyatı</th>
             <th>İşlemler</th>
@@ -1192,12 +1190,6 @@
       satir.className = 'fade-in';
       satir.innerHTML = `
         <td>${altin.tur.toUpperCase()}</td>
-        <td><input type="number" step="0.001" class="form-control form-control-sm" 
-             value="${altin.hasAlisCarpan}" 
-             onchange="updateMainMultiplier(${index}, 'hasAlisCarpan', this.value)"></td>
-        <td><input type="number" step="0.001" class="form-control form-control-sm" 
-             value="${altin.hasSatisCarpan}" 
-             onchange="updateMainMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
         <td>${formatPara(roundedAlisFiyati)}</td>
         <td>${formatPara(roundedSatisFiyati)}</td>
         <td>
