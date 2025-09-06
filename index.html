@@ -560,6 +560,9 @@
         });
       });
     }
+    
+    // autoUpdatePriceType'ı alış olarak ayarla
+    localStorage.setItem('autoUpdatePriceType', 'alis');
   </script>
 </head>
 
@@ -991,7 +994,7 @@
     anlikHasSatisFiyat: parseFloat(localStorage.getItem('anlikHasSatisFiyat')) || 2345.00,
     previousPrice: parseFloat(localStorage.getItem('previousPrice')) || 2345.00,
     autoUpdate: localStorage.getItem('autoUpdate') === 'true',
-    autoUpdatePriceType: localStorage.getItem('autoUpdatePriceType') || 'alis',
+    autoUpdatePriceType: 'alis', // Her zaman alış kullan
     updateInterval: null,
     darkMode: localStorage.getItem('darkMode') === 'true',
     selectedTheme: localStorage.getItem('selectedTheme') || 'default',
