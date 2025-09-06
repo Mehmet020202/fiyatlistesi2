@@ -1063,8 +1063,8 @@
         <td><input type="number" step="0.001" class="form-control" 
              value="${altin.hasSatisCarpan}" 
              onchange="updateSimulationMultiplier(${index}, 'hasSatisCarpan', this.value)"></td>
-        <td>${formatPara(roundDownToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'satis' ? altin.hasSatisCarpan : altin.hasAlisCarpan)))}</td>
-        <td>${formatPara(roundUpToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'alis' ? altin.hasAlisCarpan : altin.hasSatisCarpan)))}</td>
+        <td>${formatPara(roundDownToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'alis' ? altin.hasAlisCarpan : altin.hasSatisCarpan)))}</td>
+        <td>${formatPara(roundUpToFive(appState.anlikHasFiyat * (appState.autoUpdatePriceType === 'satis' ? altin.hasSatisCarpan : altin.hasAlisCarpan)))}</td>
       `;
       tableBody.appendChild(row);
     });
